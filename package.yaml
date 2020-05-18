@@ -1,0 +1,43 @@
+name:                pinary
+version:             0.1.0.0
+github:              "jdschwar/pinary"
+license:             MIT
+author:              "Jeremy Schwartz"
+maintainer:          "j.schwartz564@icloud.com"
+copyright:           "2020 Jeremy Schwartz"
+
+extra-source-files:
+- README.md
+
+description: A marginally useful library for converting binary to printable text.
+
+dependencies:
+- base >= 4.7 && < 5
+- digits >= 0.3 && < 0.4
+- containers >= 0.6 && < 0.7
+
+library:
+  source-dirs: src
+
+executables:
+  pinary-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - pinary
+
+tests:
+  pinary-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - pinary
+    - QuickCheck >= 2.13
