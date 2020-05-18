@@ -1,12 +1,12 @@
-{-# LANGUAGE TupleSections #-}
-
 module Compression.Huffman
   ( Huffman
   , freqCompressor
+  , compressorFromList
   )
 where
 
 import           Compression
+import           Compression.Analysis
 import           Control.Arrow
 import           Data.Bit
 import           Data.List
@@ -33,11 +33,15 @@ instance Compressor Huffman where
 -- The resultant compressor will perform an optimal compression on `str` but
 -- will be limited to the character set which occurs in it.
 freqCompressor :: Bit b => String -> Huffman b
-freqCompressor str = Huffman cm tree
+freqCompressor = compressorFromList . freqList
+
+-- | Constructs a Huffman compressor from an association list mapping characters
+-- to their frequencies.
+compressorFromList :: Bit b => [(Char, Int)] -> Huffman b
+compressorFromList list = Huffman cm tree
  where
-  cm          = buildCodeMap tree
-  tree        = buildTree frequencies
-  frequencies = freqList str
+  cm   = buildCodeMap tree
+  tree = buildTree list
 
 -- | CodeMap is built from a Huffman tree and is used to encode data.
 type CodeMap a = Map.Map Char [a]
@@ -59,11 +63,6 @@ weight (Fork _ _ w) = w
 -- | Merges two Huffman trees into a single one.
 merge :: HTree -> HTree -> HTree
 merge a b = Fork a b (weight a + weight b)
-
--- | Constructs a histogram mapping characters to the number of times they occur
--- in some string.
-freqList :: String -> [(Char, Int)]
-freqList = Map.toList . Map.fromListWith (+) . map (, 1)
 
 -- | Constructs a Huffman tree from a list of character frequencies.
 --

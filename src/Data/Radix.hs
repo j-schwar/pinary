@@ -2,6 +2,7 @@ module Data.Radix where
 
 import qualified Data.Digits                   as D
 import           Data.Bit
+import qualified Data.ByteString as Bin
 
 -- | A sequence of digits in a specific radix.
 data Digits = Digits { radix :: Int, digits :: [Integer] }
@@ -41,3 +42,7 @@ digitCount = length . digits
 padWithLeadingZeros :: Int -> Digits -> Digits
 padWithLeadingZeros len ds@(Digits r d) = Digits r $ replicate needed 0 ++ d
   where needed = len - digitCount ds
+
+-- | Constructs a sequence of base-256 digits (i.e., bytes) from a byte string.
+fromByteString :: Bin.ByteString -> Digits
+fromByteString = Digits 256 . Bin.foldr (\x xs -> fromIntegral x : xs) []

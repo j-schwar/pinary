@@ -15,12 +15,13 @@ dependencies:
 - base >= 4.7 && < 5
 - digits >= 0.3 && < 0.4
 - containers >= 0.6 && < 0.7
+- bytestring >= 0.10 && < 0.11
 
 library:
   source-dirs: src
 
 executables:
-  pinary-exe:
+  pinary:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -29,6 +30,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - pinary
+    - cmdargs >= 0.10 && < 0.11
 
 tests:
   pinary-test:
