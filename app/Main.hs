@@ -14,7 +14,7 @@ import           System.Exit
 
 main :: IO ()
 main = do
-  args <- cmdArgs (modes [Args.translate])
+  args <- cmdArgs Args.cmdModes
   case args of
     Args.Translate input src dst -> do
       input <- case input of
