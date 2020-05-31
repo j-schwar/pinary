@@ -43,4 +43,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - pinary
+    - HUnit >= 1.4
     - QuickCheck >= 2.13

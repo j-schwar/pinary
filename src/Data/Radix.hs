@@ -1,4 +1,14 @@
-module Data.Radix where
+module Data.Radix
+  ( Digits(..)
+  , convertRadix
+  , fromBase10
+  , toBase10
+  , fromBinary
+  , fromByteString
+  , digitCount
+  , padWithLeadingZeros
+  )
+where
 
 import qualified Data.Digits                   as D
 import           Data.Bit
@@ -15,11 +25,11 @@ data Digits = Digits { radix :: Int, digits :: [Integer] }
 convertRadix :: Int -> Digits -> Digits
 convertRadix to ds@(Digits r d) | to == r   = ds
                                 | otherwise = Digits to newDigits
-  where newDigits = D.digits (toInteger to) . D.unDigits (toInteger r) $ d
+  where newDigits = digitList (toInteger to) . D.unDigits (toInteger r) $ d
 
 -- | Constructs a sequence of base-10 digits from a regular integer.
 fromBase10 :: Integer -> Digits
-fromBase10 = Digits 10 . D.digits 10
+fromBase10 = Digits 10 . digitList 10
 
 -- | Converts a digit sequence into a regular base-10 integer.
 toBase10 :: Digits -> Integer
@@ -46,3 +56,8 @@ digitCount = length . digits
 padWithLeadingZeros :: Int -> Digits -> Digits
 padWithLeadingZeros len ds@(Digits r d) = Digits r $ replicate needed 0 ++ d
   where needed = len - digitCount ds
+
+digitList :: Integer -> Integer -> [Integer]
+digitList r value = case D.digits r value of
+  [] -> [0]
+  xs -> xs

@@ -3,6 +3,7 @@ module Test.Radix
   )
 where
 
+import           Test.HUnit
 import           Test.QuickCheck
 import           Data.Radix
 
@@ -46,18 +47,27 @@ instance Arbitrary Digits where
 --
 -- The conversion will strip any leading zeros from the digit sequence so we
 -- need to add those back in before comparing.
-prop_convert_to_from_is_identity :: Radix -> Digits -> Bool
-prop_convert_to_from_is_identity (Radix r) ds = ds == padded_result
+prop_convertToFromRadixIsIdentity :: Radix -> Digits -> Bool
+prop_convertToFromRadixIsIdentity (Radix r) ds = ds == padded_result
  where
   padded_result = padWithLeadingZeros (digitCount ds) result
   result        = convertRadix original . convertRadix r $ ds
   original      = radix ds
 
 -- | `toBase10` should be the inverse function of `fromBase10`.
-prop_convert_to_from_base_10_is_identity :: Integer -> Bool
-prop_convert_to_from_base_10_is_identity n = n == (toBase10 . fromBase10) n
+prop_convertToFromBase10IsIdentity :: Integer -> Bool
+prop_convertToFromBase10IsIdentity n = n == (toBase10 . fromBase10) n
+
+test_fromBase10ZeroValue :: Test
+test_fromBase10ZeroValue = TestCase $ case fromBase10 0 of
+  Digits 10 [0] -> return ()
+  x             -> assertFailure $ "unexpected result: " ++ show x
+
+unitTests = TestList [TestLabel "from base 10 zero value" test_fromBase10ZeroValue]
 
 run :: IO ()
 run = do
-  quickCheck prop_convert_to_from_is_identity
-  quickCheck prop_convert_to_from_base_10_is_identity
+  quickCheck prop_convertToFromRadixIsIdentity
+  quickCheck prop_convertToFromBase10IsIdentity
+  _ <- runTestTT unitTests
+  return ()
