@@ -2,7 +2,7 @@ module Data.Radix where
 
 import qualified Data.Digits                   as D
 import           Data.Bit
-import qualified Data.ByteString as Bin
+import qualified Data.ByteString               as Bytes
 
 -- | A sequence of digits in a specific radix.
 data Digits = Digits { radix :: Int, digits :: [Integer] }
@@ -29,6 +29,10 @@ toBase10 = D.unDigits 10 . digits . convertRadix 10
 fromBinary :: Bit a => [a] -> Digits
 fromBinary = Digits 2 . fmap toIntegerBit
 
+-- | Constructs a sequence of base-256 digits (i.e., bytes) from a byte string.
+fromByteString :: Bytes.ByteString -> Digits
+fromByteString = Digits 256 . Bytes.foldr (\x xs -> fromIntegral x : xs) []
+
 -- | The number of digits in a given sequence.
 --
 -- >>> digitCount $ fromBase10 301
@@ -42,7 +46,3 @@ digitCount = length . digits
 padWithLeadingZeros :: Int -> Digits -> Digits
 padWithLeadingZeros len ds@(Digits r d) = Digits r $ replicate needed 0 ++ d
   where needed = len - digitCount ds
-
--- | Constructs a sequence of base-256 digits (i.e., bytes) from a byte string.
-fromByteString :: Bin.ByteString -> Digits
-fromByteString = Digits 256 . Bin.foldr (\x xs -> fromIntegral x : xs) []
