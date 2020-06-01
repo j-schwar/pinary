@@ -14,8 +14,10 @@ where
 import           Control.Monad.Except
 import           Data.Radix
 import           Data.Char
+import           Data.Error
 import           Data.List
 import           Data.Maybe
+import Data.Typeable (Typeable)
 
 -- | A printable alphabet to encode data in.
 --
@@ -41,11 +43,14 @@ data AlphabetError a
   -- | Error returned when attempting to construct an alphabet for a radix
   -- which is too small.
   | RadixTooSmall Int
+  deriving (Typeable)
 
 instance Show a => Show (AlphabetError a) where
   show (IllegalLetter l) = "illegal letter: " ++ show l
   show (RadixTooLarge r) = "radix " ++ show r ++ " is too large"
   show (RadixTooSmall r) = "radix " ++ show r ++ " is too small"
+
+instance (Typeable a, Show a) => Exception (AlphabetError a)
 
 -- | Monad result type used for functions which may return an error.
 --

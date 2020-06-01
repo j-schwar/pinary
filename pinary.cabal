@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 42c8b26b33c05fcd206027a0ff86cbde665d232d98b4e3ddc36418073aecb03a
+-- hash: 48f67d86b30623d7a395640f6c3b74bfd7ca43df57810fca61672f8c9a685a49
 
 name:           pinary
 version:        0.1.0.0
@@ -30,7 +30,9 @@ library
       Compression.Huffman
       Data.Alphabet
       Data.Bit
+      Data.Error
       Data.Radix
+      Encode
   other-modules:
       Paths_pinary
   hs-source-dirs:
@@ -41,6 +43,8 @@ library
     , containers >=0.6 && <0.7
     , digits >=0.3 && <0.4
     , mtl >=2.2 && <2.3
+    , split >=0.2 && <0.3
+    , utf8-string >=1.0 && <1.1
   default-language: Haskell2010
 
 executable pinary
@@ -60,6 +64,8 @@ executable pinary
     , digits >=0.3 && <0.4
     , mtl >=2.2 && <2.3
     , pinary
+    , split >=0.2 && <0.3
+    , utf8-string >=1.0 && <1.1
   default-language: Haskell2010
 
 test-suite pinary-test
@@ -80,4 +86,6 @@ test-suite pinary-test
     , digits >=0.3 && <0.4
     , mtl >=2.2 && <2.3
     , pinary
+    , split >=0.2 && <0.3
+    , utf8-string >=1.0 && <1.1
   default-language: Haskell2010

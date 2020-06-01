@@ -80,5 +80,4 @@ decompress =
                      "Radix to display output as"
       , mode     = "ascii" &= typ "[ascii|json]" &= help "Compression mode"
       }
-    &= help
-         "Decodes and decompresses an encoded + compressed file"
+    &= help "Decodes and decompresses an encoded + compressed file"

@@ -12,7 +12,7 @@ class Eq a => Bit a where
   -- | Converts a bit into an integer value.
   toIntegerBit :: a -> Integer
 
-instance Bit Bool where
+instance {-# OVERLAPPING #-} Bit Bool where
   zer = False
   one = True
   toIntegerBit a = if a then 1 else 0

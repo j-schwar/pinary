@@ -13,10 +13,12 @@ description: A marginally useful library for converting binary to printable text
 
 dependencies:
 - base >= 4.7 && < 5
-- digits >= 0.3 && < 0.4
-- containers >= 0.6 && < 0.7
 - bytestring >= 0.10 && < 0.11
+- containers >= 0.6 && < 0.7
+- digits >= 0.3 && < 0.4
+- split >= 0.2 && < 0.3
 - mtl >= 2.2 && < 2.3
+- utf8-string >= 1.0 && < 1.1
 
 library:
   source-dirs: src

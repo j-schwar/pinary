@@ -5,6 +5,7 @@ module Data.Radix
   , toBase10
   , fromBinary
   , fromByteString
+  , toByteString
   , digitCount
   , padWithLeadingZeros
   )
@@ -17,6 +18,14 @@ import qualified Data.ByteString               as Bytes
 -- | A sequence of digits in a specific radix.
 data Digits = Digits { radix :: Int, digits :: [Integer] }
   deriving (Show, Eq)
+
+instance Semigroup Digits where
+  a <> b = Digits r (lhs <> rhs)
+    where
+      r = radix a
+      b' = convertRadix r b
+      lhs = digits a
+      rhs = digits b'
 
 -- | Performs a radix conversion on some digits.
 --
@@ -41,7 +50,11 @@ fromBinary = Digits 2 . fmap toIntegerBit
 
 -- | Constructs a sequence of base-256 digits (i.e., bytes) from a byte string.
 fromByteString :: Bytes.ByteString -> Digits
-fromByteString = Digits 256 . Bytes.foldr (\x xs -> fromIntegral x : xs) []
+fromByteString bytes = Digits 256 $ fromIntegral <$> Bytes.unpack bytes
+
+-- | Converts a digit sequence into a string of bytes.
+toByteString :: Digits -> Bytes.ByteString
+toByteString = Bytes.pack . map fromIntegral . digits . convertRadix 256
 
 -- | The number of digits in a given sequence.
 --
