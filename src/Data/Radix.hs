@@ -4,6 +4,7 @@ module Data.Radix
   , fromBase10
   , toBase10
   , fromBinary
+  , toBinary
   , fromByteString
   , toByteString
   , digitCount
@@ -47,6 +48,10 @@ toBase10 = D.unDigits 10 . digits . convertRadix 10
 -- | Constructs a sequence of binary digits from a list of bits.
 fromBinary :: Bit a => [a] -> Digits
 fromBinary = Digits 2 . fmap toIntegerBit
+
+-- | Converts a digit sequence into a binary representation.
+toBinary :: Digits -> [Integer]
+toBinary = digits . convertRadix 2
 
 -- | Constructs a sequence of base-256 digits (i.e., bytes) from a byte string.
 fromByteString :: Bytes.ByteString -> Digits

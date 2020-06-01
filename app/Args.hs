@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# OPTIONS_GHC -fno-cse #-}
 
-module Input.Args
+module Args
   ( Argv(..)
   , cmdModes
   )

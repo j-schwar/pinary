@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 48f67d86b30623d7a395640f6c3b74bfd7ca43df57810fca61672f8c9a685a49
+-- hash: c81f3238ed150379ad1831e0b18b699aa3a8ffe968719624513ee4630bf151e2
 
 name:           pinary
 version:        0.1.0.0
@@ -50,8 +50,7 @@ library
 executable pinary
   main-is: Main.hs
   other-modules:
-      Input.Args
-      Input.Translate
+      Args
       Paths_pinary
   hs-source-dirs:
       app
