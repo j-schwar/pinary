@@ -53,9 +53,7 @@ main = do
       let binary =
             Radix.toBinary . Radix.fromByteString <$> doDecode base input
       let string = Comp.decompress compressor <$> binary
-      case runExcept string of
-        Right string -> putStr string
-        Left  err    -> print err
+      writeResult output string
 
 -- | Translates `input` from some given source radix to a specified destination
 -- radix.
